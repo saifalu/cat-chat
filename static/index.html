@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Chat</title>
+    <style>
+        nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+h1{
+    color: pink;
+    margin-left: 10px;
+}
+#main-logo{
+    width: 5%;
+    height: 5%;
+    margin-right: 10px;
+}
+
+
+/*body{
+    background: linear-gradient(rgb(201, 201, 241), white);
+    width: 100%;
+    height: 100%;
+}*/
+
+.container {
+    width: 1000px;
+    background: rgb(155, 242, 255);
+    margin: auto;
+    height: 400px;
+    overflow-y: auto;
+}
+
+.message-left{
+    background: #2b01ff;
+    color: white;
+    border: 1px solid black;
+    border-radius: 10px;
+    max-width: 400px;
+    max-height: 1000px;
+    padding: 10px;
+    margin: 30px ;
+    float: left;
+    clear: both;
+}
+
+.message-right{
+    background: #018dff;
+    color: white;
+    border: 1px solid black;
+    border-radius: 10px;
+    max-width: 400px;
+    max-height: 1000px;
+    padding: 10px;
+    margin: 30px ;
+    float: right;
+    clear: both;
+}
+
+.send{
+    width: 998px;
+    border: 1px solid black;
+    margin: auto;
+}
+#messageInp{
+    width: 900px;
+    height: 30px;
+    margin-right: -4px;
+}
+.btn{
+    width: 90px;
+    height: 35px;
+    background:rgb(5, 5, 177);
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+.btn:hover{
+    background:rgb(22, 131, 255);
+}
+
+
+/* Style for phone */
+
+@media only screen and (max-width: 600px){
+    .container {
+        width: 100%;
+    }
+
+    .send{
+        width: 417px;
+        margin: auto;
+    }
+
+    #messageInp{
+        width: 319px;
+        height: 30px;
+        margin-right: -4px;
+    }
+    
+    .message-left{
+        border: 1 px solid black;
+        max-width: 130px;
+        max-height: 1000px;
+    }
+    .message-right{
+        border: 1px solid black;
+        max-width: 130px;
+        max-height: 1000px;
+    }
+
+}
+    </style>
+</head>
+<body>
+    <nav>
+        <img id ="main-logo" src="https://static.vecteezy.com/system/resources/previews/009/665/304/non_2x/cute-kitty-cat-head-cartoon-element-free-png.png">
+        <h1>CAT CHAT</h1>
+    </nav>
+
+    <div class="container">
+        
+    </div>
+
+    <div class="send">
+        <form action="#" id="send-container">
+            <input type="text" name="messageInp" id="messageInp">
+            <button type="submit" class="btn">send</button>
+        </form>
+    </div>
+
+
+ <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+ <script>
+    const socket = io('http://127.0.0.1:3000')
+
+    const form = document.getElementById('send-container')
+    const messageInp = document.getElementById('messageInp')
+    const messageContainer = document.querySelector('.container')
+    const audio = new Audio('catsound.mp3');
+
+    // Function to play the audio
+    const playAudio = async () => {
+    try {
+        await audio.play();
+    } catch (error) {
+        console.error('Error playing audio:', error.message);
+    }
+    };
+
+   // Function to append a new message and play audio
+    const append = async (message, positionclass) => {
+    const messageElement = document.createElement('div');
+    messageElement.innerText = message;
+    messageElement.classList.add(positionclass);
+    messageContainer.append(messageElement);
+
+    if (positionclass === 'message-left') {
+        await playAudio(); // Play audio when a new message arrives on the left
+    }
+    };
+
+
+    form.addEventListener('submit',(e)=>{
+        e.preventDefault();
+        const message = messageInp.value;
+        append(`You : ${message}`,'message-right');
+        socket.emit('send', message);
+        messageInp.value = ''
+    })
+
+
+    const name = prompt('Enter you name')
+
+    socket.emit('new-user-joined', name)
+        
+    socket.on('user-joined', name=>{
+            append(`${name} joined the chat`,'message-left')
+    })
+
+    socket.on('receive',data=>{
+            append(`${data.name} : ${data.message}`,'message-left')
+    })
+
+    socket.on('left',data=>{
+        append(`${data} left chat`,'message-left')
+    })
+    </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+h1{
+    color: pink;
+    margin-left: 10px;
+}
+#main-logo{
+    width: 5%;
+    height: 5%;
+    margin-right: 10px;
+}
+
+
+/*body{
+    background: linear-gradient(rgb(201, 201, 241), white);
+    width: 100%;
+    height: 100%;
+}*/
+
+.container {
+    width: 1000px;
+    background: rgb(155, 242, 255);
+    margin: auto;
+    height: 400px;
+    overflow-y: auto;
+}
+
+.message-left{
+    background: #2b01ff;
+    color: white;
+    border: 1px solid black;
+    border-radius: 10px;
+    max-width: 400px;
+    max-height: 1000px;
+    padding: 10px;
+    margin: 30px ;
+    float: left;
+    clear: both;
+}
+
+.message-right{
+    background: #018dff;
+    color: white;
+    border: 1px solid black;
+    border-radius: 10px;
+    max-width: 400px;
+    max-height: 1000px;
+    padding: 10px;
+    margin: 30px ;
+    float: right;
+    clear: both;
+}
+
+.send{
+    width: 998px;
+    border: 1px solid black;
+    margin: auto;
+}
+#messageInp{
+    width: 900px;
+    height: 30px;
+    margin-right: -4px;
+}
+.btn{
+    width: 90px;
+    height: 35px;
+    background:rgb(5, 5, 177);
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+.btn:hover{
+    background:rgb(22, 131, 255);
+}
+
+
+/* Style for phone */
+
+@media only screen and (max-width: 600px){
+    .container {
+        width: 100%;
+    }
+
+    .send{
+        width: 417px;
+        margin: auto;
+    }
+
+    #messageInp{
+        width: 319px;
+        height: 30px;
+        margin-right: -4px;
+    }
+    
+    .message-left{
+        border: 1 px solid black;
+        max-width: 130px;
+        max-height: 1000px;
+    }
+    .message-right{
+        border: 1px solid black;
+        max-width: 130px;
+        max-height: 1000px;
+    }
+
+}

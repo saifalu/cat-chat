@@ -145,14 +145,6 @@ h1{
     const messageContainer = document.querySelector('.container')
     const audio = new Audio('catsound.mp3');
 
-    // Function to play the audio
-    const playAudio = async () => {
-    try {
-        await audio.play();
-    } catch (error) {
-        console.error('Error playing audio:', error.message);
-    }
-    };
 
    // Function to append a new message and play audio
     const append = async (message, positionclass) => {
@@ -160,10 +152,6 @@ h1{
     messageElement.innerText = message;
     messageElement.classList.add(positionclass);
     messageContainer.append(messageElement);
-
-    if (positionclass === 'message-left') {
-        await playAudio(); // Play audio when a new message arrives on the left
-    }
     };
 
 
@@ -186,6 +174,7 @@ h1{
 
     socket.on('receive',data=>{
             append(`${data.name} : ${data.message}`,'message-left')
+            audio.play()
     })
 
     socket.on('left',data=>{

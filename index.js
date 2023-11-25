@@ -16,7 +16,12 @@ app.get('/',(req,resp)=>{
 })
 
 
-const io = require('socket.io')(http)
+const io = require('socket.io')(http,{
+    cors: {
+        origin: "https://cat-chat.azurewebsites.net",
+        methods: ["GET", "POST"]
+    }
+})
 
 const users = {}
 
